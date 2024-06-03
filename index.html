@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- datatable -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"
+    />
+  </head>
+  <body>
+    <table id="example" class="display" style="width: 100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Office</th>
+          <th>Age</th>
+          <th>Start date</th>
+          <th>Salary</th>
+        </tr>
+      </thead>
+      <tbody id="example-body">
+        <!-- data will be rendered here -->
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Office</th>
+          <th>Age</th>
+          <th>Start date</th>
+          <th>Salary</th>
+        </tr>
+      </tfoot>
+    </table>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- datatable -->
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script>
+      const tBody = document.getElementById("example-body");
+      const table = new DataTable("#example", {
+        responsive: true,
+        columns: [
+          { data: "Name" },
+          { data: "Position" },
+          { data: "Office" },
+          { data: "Age" },
+          { data: "Start date" },
+          { data: "Salary" },
+        ],
+      });
+      fetch("./identity.json")
+        .then((res) => res.json())
+        .then((data) => {
+          data.forEach((item) => {
+            // cara ideal
+            table.row
+              .add({
+                Name: item.Name,
+                Position: item.Position,
+                Office: item.Office,
+                Age: item.Age,
+                "Start date": item["Start date"],
+                Salary: item.Salary,
+              })
+              .draw();
+            // cara manual tapi agak lebih singkat
+            // tBody.innerHTML += `
+            //     <tr>
+            //         <td>${item.Name}</td>
+            //         <td>${item.Position}</td>
+            //         <td>${item.Office}</td>
+            //         <td>${item.Age}</td>
+            //         <td>${item["Start date"]}</td>
+            //         <td>${item.Salary}</td>
+            //     </tr>
+            // `;
+            // cara manual
+            // const tr = document.createElement("tr");
+            // const elName = document.createElement("td");
+            // const elPosition = document.createElement("td");
+            // const elOffice = document.createElement("td");
+            // const elAge = document.createElement("td");
+            // const elStartDate = document.createElement("td");
+            // const elSalary = document.createElement("td");
+            //
+            // elName.textContent = item.Name;
+            // elPosition.textContent = item.Position;
+            // elOffice.textContent = item.Office;
+            // elAge.textContent = item.Age;
+            // elStartDate.textContent = item["Start date"];
+            // elSalary.textContent = item.Salary;
+            // tr.appendChild(elName);
+            // tr.appendChild(elPosition);
+            // tr.appendChild(elOffice);
+            // tr.appendChild(elAge);
+            // tr.appendChild(elStartDate);
+            // tr.appendChild(elSalary);
+            // tBody.appendChild(tr);
+          });
+        });
+    </script>
+  </body>
+</html>
